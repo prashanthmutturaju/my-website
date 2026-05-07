@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My First Website</title>
+    <title> Website</title>
     <style>
       body {
         background-color: lightblue;
@@ -15,34 +15,156 @@
         color: darkgreen;
         font-size: 20px;
       }
-
       img {
         width: 250px;
         margin-top: 20px;
         border-radius: 10px;
       }
-
       a {
         display: block;
         margin-top: 20px;
         font-size: 18px;
         color: red;
       }
+
+      /* ── New: Login Box ── */
+      .login-box {
+        background: white;
+        display: inline-block;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        margin-top: 30px;
+      }
+      .login-box h2 {
+        color: darkblue;
+        margin-bottom: 20px;
+      }
+      .login-box input {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      .login-box button {
+        width: 100%;
+        padding: 10px;
+        background-color: darkblue;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      .login-box button:hover {
+        background-color: navy;
+      }
+      .msg {
+        color: green;
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .error {
+        color: red;
+        font-size: 14px;
+      }
     </style>
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+
+    <!-- Welcome heading -->
+    <h1>Welcome to AI Chat Bolt ⚡</h1>
     <p>This is my first website.</p>
     <p>My name is Prashanth.</p>
 
-    <!-- Image -->
-    <img src="https://via.placeholder.com/250" alt="Sample Image">
+    <!-- Background Image -->
+    <img src="https://images.unsplash.com/photo-1676573728764-0a9bcff15d47?w=600" alt="AI Background">
 
-    <!-- Link (opens like ChatGPT) -->
-    <a href="https://chat.openai.com" target="_blank">
-      Open ChatGPT
-    </a>
+    <!-- Login Box -->
+    <div class="login-box">
+
+      <!-- Step 1: Email -->
+      <div id="step-email">
+        <h2>Enter your Email</h2>
+        <input type="email" id="email-input" placeholder="you@example.com" />
+        <div class="error" id="email-error"></div>
+        <button onclick="sendCode()">Send Code</button>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div id="step-otp" style="display:none;">
+        <h2>Enter Verification Code</h2>
+        <p style="font-size:14px; color:gray;">Code sent to <span id="show-email"></span></p>
+        <input type="text" id="otp-input" placeholder="Enter 6-digit code" maxlength="6" />
+        <div class="error" id="otp-error"></div>
+        <button onclick="verifyCode()">Verify Code</button>
+      </div>
+
+      <!-- Step 3: Name -->
+      <div id="step-name" style="display:none;">
+        <h2>Enter your Name</h2>
+        <input type="text" id="name-input" placeholder="Your full name" />
+        <div class="error" id="name-error"></div>
+        <button onclick="submitName()">Continue</button>
+      </div>
+
+      <!-- Step 4: Done -->
+      <div id="step-done" style="display:none;">
+        <h2>✅ Welcome, <span id="user-name"></span>!</h2>
+        <p style="color:darkgreen;">You are now signed in to AI Chat Bolt ⚡</p>
+        <a href="https://chat.openai.com" target="_blank">Open ChatGPT</a>
+      </div>
+
+    </div>
+
+    <script>
+      let otp = '';
+
+      function sendCode() {
+        const email = document.getElementById('email-input').value.trim();
+        const err = document.getElementById('email-error');
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          err.textContent = 'Please enter a valid email.';
+          return;
+        }
+        err.textContent = '';
+        otp = Math.floor(100000 + Math.random() * 900000).toString();
+        alert('Demo OTP: ' + otp);
+        document.getElementById('show-email').textContent = email;
+        document.getElementById('step-email').style.display = 'none';
+        document.getElementById('step-otp').style.display = 'block';
+      }
+
+      function verifyCode() {
+        const entered = document.getElementById('otp-input').value.trim();
+        const err = document.getElementById('otp-error');
+        if (entered !== otp) {
+          err.textContent = 'Wrong code. Try again.';
+          return;
+        }
+        err.textContent = '';
+        document.getElementById('step-otp').style.display = 'none';
+        document.getElementById('step-name').style.display = 'block';
+      }
+
+      function submitName() {
+        const name = document.getElementById('name-input').value.trim();
+        const err = document.getElementById('name-error');
+        if (!name) {
+          err.textContent = 'Please enter your name.';
+          return;
+        }
+        err.textContent = '';
+        document.getElementById('user-name').textContent = name;
+        document.getElementById('step-name').style.display = 'none';
+        document.getElementById('step-done').style.display = 'block';
+      }
+    </script>
 
   </body>
 </html>
