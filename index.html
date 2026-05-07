@@ -1,170 +1,239 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title> Website</title>
-    <style>
-      body {
-        background-color: lightblue;
-        text-align: center;
-        font-family: Arial;
-      }
-      h1 {
-        color: darkblue;
-      }
-      p {
-        color: darkgreen;
-        font-size: 20px;
-      }
-      img {
-        width: 250px;
-        margin-top: 20px;
-        border-radius: 10px;
-      }
-      a {
-        display: block;
-        margin-top: 20px;
-        font-size: 18px;
-        color: red;
-      }
+<head>
+  <title>AI Chat Bolt ⚡</title>
 
-      /* ── New: Login Box ── */
-      .login-box {
-        background: white;
-        display: inline-block;
-        padding: 30px 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        margin-top: 30px;
+  <style>
+    body{
+      margin:0;
+      padding:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .container{
+      width:900px;
+      background:white;
+      border-radius:20px;
+      overflow:hidden;
+      display:flex;
+      box-shadow:0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    /* Left Side Image */
+    .left{
+      width:50%;
+      background:url('https://share.google/rLjiEnCeCtcTXwL5I') center/cover no-repeat;
+      min-height:550px;
+    }
+
+    /* Right Side Form */
+    .right{
+      width:50%;
+      padding:40px;
+      text-align:center;
+    }
+
+    h1{
+      color:darkblue;
+      margin-bottom:10px;
+    }
+
+    .welcome{
+      font-size:28px;
+      color:#ff9800;
+      margin-bottom:20px;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow{
+      from{
+        text-shadow:0 0 5px gold;
       }
-      .login-box h2 {
-        color: darkblue;
-        margin-bottom: 20px;
+      to{
+        text-shadow:0 0 20px orange;
       }
-      .login-box input {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-      }
-      .login-box button {
-        width: 100%;
-        padding: 10px;
-        background-color: darkblue;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-bottom: 10px;
-      }
-      .login-box button:hover {
-        background-color: navy;
-      }
-      .msg {
-        color: green;
-        font-size: 14px;
-        margin-top: 8px;
-      }
-      .error {
-        color: red;
-        font-size: 14px;
-      }
-    </style>
-  </head>
+    }
 
-  <body>
+    input{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border:1px solid #ccc;
+      border-radius:8px;
+      font-size:16px;
+    }
 
-    <!-- Welcome heading -->
-    <h1>Welcome to AI Chat Bolt ⚡</h1>
-    <p>This is my first website.</p>
-    <p>My name is Prashanth.</p>
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:15px;
+      border:none;
+      border-radius:8px;
+      background:darkblue;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
 
-    <!-- Background Image -->
-    <img src="https://images.unsplash.com/photo-1676573728764-0a9bcff15d47?w=600" alt="AI Background">
+    button:hover{
+      background:navy;
+    }
 
-    <!-- Login Box -->
-    <div class="login-box">
+    .error{
+      color:red;
+      font-size:14px;
+      margin-top:5px;
+    }
 
-      <!-- Step 1: Email -->
-      <div id="step-email">
-        <h2>Enter your Email</h2>
-        <input type="email" id="email-input" placeholder="you@example.com" />
-        <div class="error" id="email-error"></div>
-        <button onclick="sendCode()">Send Code</button>
-      </div>
+    .success{
+      color:green;
+      font-size:16px;
+      margin-top:10px;
+    }
 
-      <!-- Step 2: OTP -->
-      <div id="step-otp" style="display:none;">
-        <h2>Enter Verification Code</h2>
-        <p style="font-size:14px; color:gray;">Code sent to <span id="show-email"></span></p>
-        <input type="text" id="otp-input" placeholder="Enter 6-digit code" maxlength="6" />
-        <div class="error" id="otp-error"></div>
-        <button onclick="verifyCode()">Verify Code</button>
-      </div>
+    a{
+      display:inline-block;
+      margin-top:15px;
+      text-decoration:none;
+      color:red;
+      font-weight:bold;
+    }
 
-      <!-- Step 3: Name -->
-      <div id="step-name" style="display:none;">
-        <h2>Enter your Name</h2>
-        <input type="text" id="name-input" placeholder="Your full name" />
-        <div class="error" id="name-error"></div>
-        <button onclick="submitName()">Continue</button>
-      </div>
+  </style>
+</head>
 
-      <!-- Step 4: Done -->
-      <div id="step-done" style="display:none;">
-        <h2>✅ Welcome, <span id="user-name"></span>!</h2>
-        <p style="color:darkgreen;">You are now signed in to AI Chat Bolt ⚡</p>
-        <a href="https://chat.openai.com" target="_blank">Open ChatGPT</a>
-      </div>
+<body>
 
+<div class="container">
+
+  <!-- Left Image -->
+  <div class="left"></div>
+
+  <!-- Right Login -->
+  <div class="right">
+
+    <div class="welcome">✨ Welcome to AI Chat Bolt ⚡ ✨</div>
+
+    <!-- Step 1 -->
+    <div id="step1">
+      <h1>Login</h1>
+
+      <input type="email" id="email" placeholder="Enter Email ID">
+
+      <input type="password" id="password" placeholder="Enter Password">
+
+      <div class="error" id="error1"></div>
+
+      <button onclick="sendCode()">Send Code</button>
     </div>
 
-    <script>
-      let otp = '';
+    <!-- Step 2 -->
+    <div id="step2" style="display:none;">
+      <h1>Verification</h1>
 
-      function sendCode() {
-        const email = document.getElementById('email-input').value.trim();
-        const err = document.getElementById('email-error');
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          err.textContent = 'Please enter a valid email.';
-          return;
-        }
-        err.textContent = '';
-        otp = Math.floor(100000 + Math.random() * 900000).toString();
-        alert('Demo OTP: ' + otp);
-        document.getElementById('show-email').textContent = email;
-        document.getElementById('step-email').style.display = 'none';
-        document.getElementById('step-otp').style.display = 'block';
-      }
+      <p>Code sent to <span id="showEmail"></span></p>
 
-      function verifyCode() {
-        const entered = document.getElementById('otp-input').value.trim();
-        const err = document.getElementById('otp-error');
-        if (entered !== otp) {
-          err.textContent = 'Wrong code. Try again.';
-          return;
-        }
-        err.textContent = '';
-        document.getElementById('step-otp').style.display = 'none';
-        document.getElementById('step-name').style.display = 'block';
-      }
+      <input type="text" id="otp" placeholder="Enter 6-digit code">
 
-      function submitName() {
-        const name = document.getElementById('name-input').value.trim();
-        const err = document.getElementById('name-error');
-        if (!name) {
-          err.textContent = 'Please enter your name.';
-          return;
-        }
-        err.textContent = '';
-        document.getElementById('user-name').textContent = name;
-        document.getElementById('step-name').style.display = 'none';
-        document.getElementById('step-done').style.display = 'block';
-      }
-    </script>
+      <div class="error" id="error2"></div>
 
-  </body>
+      <button onclick="verifyCode()">Verify</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" style="display:none;">
+      <h1>Your Name</h1>
+
+      <input type="text" id="name" placeholder="Enter Your Name">
+
+      <div class="error" id="error3"></div>
+
+      <button onclick="finishLogin()">Continue</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="step4" style="display:none;">
+      <h1>✨ Welcome <span id="finalName"></span> ✨</h1>
+
+      <p class="success">
+        You are successfully signed in to AI Chat Bolt ⚡
+      </p>
+
+      <a href="https://chat.openai.com" target="_blank">
+        Open ChatGPT
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let generatedOTP = "";
+
+function sendCode(){
+
+  let email = document.getElementById("email").value.trim();
+  let password = document.getElementById("password").value.trim();
+
+  if(email === "" || password === ""){
+    document.getElementById("error1").innerText =
+      "Please enter email and password";
+    return;
+  }
+
+  document.getElementById("error1").innerText = "";
+
+  generatedOTP =
+    Math.floor(100000 + Math.random() * 900000).toString();
+
+  alert("Demo OTP: " + generatedOTP);
+
+  document.getElementById("showEmail").innerText = email;
+
+  document.getElementById("step1").style.display = "none";
+  document.getElementById("step2").style.display = "block";
+}
+
+function verifyCode(){
+
+  let enteredOTP = document.getElementById("otp").value.trim();
+
+  if(enteredOTP !== generatedOTP){
+    document.getElementById("error2").innerText =
+      "Wrong OTP. Try again.";
+    return;
+  }
+
+  document.getElementById("error2").innerText = "";
+
+  document.getElementById("step2").style.display = "none";
+  document.getElementById("step3").style.display = "block";
+}
+
+function finishLogin(){
+
+  let name = document.getElementById("name").value.trim();
+
+  if(name === ""){
+    document.getElementById("error3").innerText =
+      "Please enter your name";
+    return;
+  }
+
+  document.getElementById("finalName").innerText = name;
+
+  document.getElementById("step3").style.display = "none";
+  document.getElementById("step4").style.display = "block";
+}
+
+</script>
+
+</body>
 </html>
